@@ -3,6 +3,7 @@ import Footer from "../pages/Shared/Footer/Footer";
 import Navber from "../pages/Shared/Navber/Navber";
 
 
+
 const Main = () => {
     return (
         <div>
