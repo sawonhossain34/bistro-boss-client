@@ -58,7 +58,7 @@ const SignUp = () => {
                                 {errors.password?.type === 'required' && <p className="text-red-500">Password is required</p>}
                                 {errors.password?.type === 'minLength' && <p className="text-red-500">Password must be 6 characters</p>}
                                 {errors.password?.type === 'maxLength' && <p className="text-red-500">Password must be less then 20 characters</p>}
-                                {errors.password?.type === 'maxLength' && <p className="text-red-500">Password must have bmin 6 letter password, with at least a symbol, upper and lower case letters and a number</p>}
+                                {errors.password?.type === 'pattern' && <p className="text-red-500">Password must have bmin 6 letter password, with at least a symbol, upper and lower case letters and a number</p>}
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
