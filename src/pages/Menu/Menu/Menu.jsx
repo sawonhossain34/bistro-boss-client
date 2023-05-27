@@ -7,6 +7,7 @@ import saladImg from '../../../assets/menu/salad-bg.jpg';
 import useMenu from "../../../hooks/useMenu";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle"
 import MenuCategory from "../MenuCategory/MenuCategory";
+import { Helmet } from "react-helmet-async";
 
 const Menu = () => {
     const [menu] = useMenu();
@@ -17,19 +18,24 @@ const Menu = () => {
     const offered = menu.filter(item => item.category === 'offered')
 
     return (
-        <div>
-            <Cover img={menuImg} title="our menu"></Cover>
-            {/* main cover */}
-            <SectionTitle subHeading='Do not Miss' heading="today's offer"></SectionTitle>
-            {/* offer menu items */}
-            <MenuCategory items={offered}></MenuCategory>
-            {/* dezzad menu items */}
-            <MenuCategory items = {desserts}title={'desserts'}img={dessertsImg}
-            ></MenuCategory>
-            <MenuCategory items = {pizza} title={'pizza'} img ={pizzaImg}></MenuCategory>
-            <MenuCategory items = {salad} title={'salad'} img ={saladImg}></MenuCategory>
-            <MenuCategory items = {soup} title={'soup'} img ={soupImg}></MenuCategory>
-        </div>
+        <>
+            <Helmet>
+                <title>Bistro Boss | Menu</title>
+            </Helmet>
+            <div>
+                <Cover img={menuImg} title="our menu"></Cover>
+                {/* main cover */}
+                <SectionTitle subHeading='Do not Miss' heading="today's offer"></SectionTitle>
+                {/* offer menu items */}
+                <MenuCategory items={offered}></MenuCategory>
+                {/* dezzad menu items */}
+                <MenuCategory items={desserts} title={'desserts'} img={dessertsImg}
+                ></MenuCategory>
+                <MenuCategory items={pizza} title={'pizza'} img={pizzaImg}></MenuCategory>
+                <MenuCategory items={salad} title={'salad'} img={saladImg}></MenuCategory>
+                <MenuCategory items={soup} title={'soup'} img={soupImg}></MenuCategory>
+            </div>
+        </>
     );
 };
 
