@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 
 const SocialLogin = () => {
-    const {googleSignIn} = useContext(AuthContext);
+    const { googleSignIn } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -14,32 +14,29 @@ const SocialLogin = () => {
 
     const handleGoogleSignIn = () => {
         googleSignIn()
-        .then(result => {
-            const loggedUser = result.user;
-            console.log(loggedUser);
-            const saveUser = {name:loggedUser.name, email:loggedUser.email}
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                const saveUser = { name: loggedUser.name, email: loggedUser.email }
 
-            fetch('http://localhost:5000/users',{
-                            method:'POST',
-                            headers:{
-                                'content-type':'application/json'
-                            },
-                            body:JSON.stringify(saveUser)
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.insertedId) {
-                                    
-                                    navigate(from , {replace:true});
-                                }
-                            })
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(saveUser)
+                })
+                    .then(res => res.json())
+                    .then(() => {
+                            navigate(from, { replace: true });
+                    })
 
 
-            
-        })
-        .catch(error => console.log(error))
-        
-        
+
+            })
+        // .catch(error => console.log(error))
+
+
     }
     return (
         <div>
