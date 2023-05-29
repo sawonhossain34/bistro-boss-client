@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import Swal from "sweetalert2";
 
 const MyCart = () => {
-    const [cart,refetch] = useCart();
+    const [cart, refetch] = useCart();
     const total = cart.reduce((sum, item) => item.price + sum, 0)
 
     const handleDelete = (item) => {
