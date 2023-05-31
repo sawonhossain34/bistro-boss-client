@@ -18,6 +18,8 @@ const AllUsers = () => {
         .then(data => {
             console.log(data);
             if(data.modifiedCount){
+                // TODO:i am set refetch
+                refetch;
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
