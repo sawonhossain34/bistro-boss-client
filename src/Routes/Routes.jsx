@@ -10,51 +10,56 @@ import PrivateRoute from "./PrivateRoute";
 import DashBoard from "../Layout/DashBoard";
 import MyCart from "../pages/DashBoard/MyCart/MyCart";
 import AllUsers from "../pages/DashBoard/AllUsers/AllUsers";
+import AddItem from "../pages/DashBoard/AddItem/AddItem";
 
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Main></Main>,
-      children:[
-        {
-            path:'/',
-            element: <Home></Home>
-        },
-        {
-          path:'/menu',
-          element:<Menu></Menu>
-        },
-        {
-          path:'/order/:category',
-          element:<Order></Order>
-        },
-        {
-          path:'/login',
-          element:<Login></Login>
-        },
-        {
-          path:'/signup',
-          element:<SignUp></SignUp>
-        },
-        {
-          path:"/secret",
-          element:<PrivateRoute><Secret></Secret></PrivateRoute>
-        }
-      ]
-    },
-    {
-      path:'dashboard',
-      element:<PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
-      children:[
-        {
-          path:'mycart',
-          element:<MyCart></MyCart>
-        },
-        {
-          path:'allusers',
-          element:<AllUsers></AllUsers>
-        }
-      ]
-    }
-  ]);
+  {
+    path: "/",
+    element: <Main></Main>,
+    children: [
+      {
+        path: '/',
+        element: <Home></Home>
+      },
+      {
+        path: '/menu',
+        element: <Menu></Menu>
+      },
+      {
+        path: '/order/:category',
+        element: <Order></Order>
+      },
+      {
+        path: '/login',
+        element: <Login></Login>
+      },
+      {
+        path: '/signup',
+        element: <SignUp></SignUp>
+      },
+      {
+        path: "/secret",
+        element: <PrivateRoute><Secret></Secret></PrivateRoute>
+      }
+    ]
+  },
+  {
+    path: 'dashboard',
+    element: <PrivateRoute><DashBoard></DashBoard></PrivateRoute>,
+    children: [
+      {
+        path: 'mycart',
+        element: <MyCart></MyCart>
+      },
+      {
+        path: 'allusers',
+        element: <AllUsers></AllUsers>
+      },
+      {
+        path: 'addItem',
+        element: <AddItem></AddItem>
+      }
+    ]
+  }
+]);
