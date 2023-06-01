@@ -1,10 +1,13 @@
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { useForm } from 'react-hook-form';
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const image_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN;
 const AddItem = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${image_hosting_token}`;
+    const [axiosSecure] = useAxiosSecure();
+    const { register, handleSubmit, reset } = useForm();
+    const img_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
     const onSubmit = data => {
         const formData = new FormData();
         formData.append('image',data.image[0])
@@ -15,12 +18,31 @@ const AddItem = () => {
         })
         .then(res => res.json())
         .then(imgRespons => {
-            console.log(imgRespons);
+            if(imgRespons.success){
+                const imgURL = imgRespons.data.display_url;
+                const{name,recipe,category,price} = data;
+                const newItem = {name,recipe,category,price:parseFloat(price),image:imgURL};
+                console.log(newItem);
+                axiosSecure.post('/menu',newItem)
+                .then(data => {
+                    console.log('after add new item menu',data.data);
+                    if(data.data.insertedId){
+                        reset();
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Added Item Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                    }
+                })
+
+            }
         })
         
     };
-    console.log(errors);
-    console.log(image_hosting_token);
+    
     return (
         <div className="w-full px-10">
             <SectionTitle subHeading="What's new" heading="Add an item"> </SectionTitle>
@@ -42,6 +64,7 @@ const AddItem = () => {
                             <option>Salad</option>
                             <option>Drinks</option>
                             <option>Soup</option>
+                            <option>Desi</option>
                             <option>Dessert</option>
                         </select>
                     </div>
