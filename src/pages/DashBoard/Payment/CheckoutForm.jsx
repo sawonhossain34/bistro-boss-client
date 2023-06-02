@@ -1,10 +1,23 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
-const CheckoutForm = ({price}) => {
+const CheckoutForm = ({ price }) => {
+    const { user } = useAuth();
     const stripe = useStripe();
     const elements = useElements();
+    const [axiosSecure] = useAxiosSecure();
     const [cardError, setCardError] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
+
+    useEffect(() => {
+        axiosSecure.post('/create-payment-intent', { price })
+            .then(res => {
+                console.log(res.data.clientSecret);
+                setClientSecret(res.data.clientSecret);
+            })
+    }, [price, axiosSecure])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -30,6 +43,22 @@ const CheckoutForm = ({price}) => {
             setCardError('');
             console.log('payment Method', paymentMethod);
         }
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        email: user?.email || 'unknown',
+                        name: user?.displayName || 'anonymouse'
+
+                    },
+                },
+            })
+        if (confirmError) {
+            console.log(confirmError);
+        }
+        console.log(paymentIntent);
     }
     return (
         <>
@@ -50,7 +79,7 @@ const CheckoutForm = ({price}) => {
                         },
                     }}
                 />
-                <button className="btn btn-active btn-primary btn-sm mt-4" type="submit" disabled={!stripe}>
+                <button className="btn btn-active btn-primary btn-sm mt-4" type="submit" disabled={!stripe || !clientSecret}>
                     Pay
                 </button>
             </form>
@@ -59,6 +88,7 @@ const CheckoutForm = ({price}) => {
             }
         </>
     );
+
 };
 
 export default CheckoutForm;
