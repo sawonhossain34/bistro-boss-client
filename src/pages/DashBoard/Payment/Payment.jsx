@@ -16,7 +16,7 @@ const Payment = () => {
             <SectionTitle subHeading='Please Process' heading="Payment"></SectionTitle>
             <h3 className="text-3xl">o taka o taka tumi uira uira aco</h3>
             <Elements stripe={stripePromise}>
-                <CheckoutForm price={price}></CheckoutForm>
+                <CheckoutForm cart={cart} price={price}></CheckoutForm>
             </Elements>
         </div>
     );
